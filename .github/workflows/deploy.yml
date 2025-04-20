@@ -10,7 +10,7 @@ on:
 # Define reusable environment variables
 env:
   DOCKER_IMAGE: ederv/learning-azure               # Change this to your Docker Hub repo/image
-  AKS_CLUSTER: AKS_LearningAzure                   # Name of your AKS cluster
+  AKS_CLUSTER: learning-aks                        # Name of your AKS cluster
   AKS_RESOURCE_GROUP: Learning-Azure-RG            # Azure Resource Group containing your AKS
   KUBECONFIG: /tmp/kubeconfig                      # Temporary location to save kubeconfig
 
