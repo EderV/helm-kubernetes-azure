@@ -40,7 +40,13 @@ jobs:
           docker build -t $DOCKER_IMAGE:latest -f cicd/Dockerfile .
           docker push $DOCKER_IMAGE:latest
 
-      # Step 5: Set up Azure CLI on the GitHub runner
+      # Step 5: Login to Azure using GitHub secret containing the Service Principal credentials
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 6: Set up Azure CLI on the GitHub runner
       - name: Set up Azure CLI
         uses: azure/cli@v2
         with:
@@ -48,12 +54,6 @@ jobs:
           inlineScript: |
             az account show
             az storage -h
-
-      # Step 6: Login to Azure using GitHub secret containing the Service Principal credentials
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Step 7: Get kubeconfig from AKS and save it temporarily
       - name: Get AKS credentials
