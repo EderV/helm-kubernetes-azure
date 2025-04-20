@@ -70,7 +70,7 @@ jobs:
       # Step 9: Deploy (or upgrade) the app into AKS using Helm
       - name: Deploy to AKS with Helm
         run: |
-          helm upgrade --install first-release ./cicd/helm \
+          helm upgrade --install second-release ./cicd/helm \
             --kubeconfig $KUBECONFIG \
             --set image.repository=$DOCKER_IMAGE,image.tag=latest
 
