@@ -37,7 +37,7 @@ jobs:
       # Step 4: Build the Docker image and push to DockerHub
       - name: Build and Push Docker image
         run: |
-          docker buildx build --platform linux/amd64 -t ederv/learning-azure:latest -f cicd/Dockerfile . --push
+          docker buildx build --platform linux/amd64 -t $DOCKER_IMAGE:latest -f cicd/Dockerfile . --push
 
       # Step 5: Login to Azure using GitHub secret containing the Service Principal credentials
       - name: Azure Login
