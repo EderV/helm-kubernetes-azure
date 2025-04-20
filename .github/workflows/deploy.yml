@@ -44,7 +44,10 @@ jobs:
       - name: Set up Azure CLI
         uses: azure/cli@v2
         with:
-          inlineScript: ''
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            az storage -h
 
       # Step 6: Login to Azure using GitHub secret containing the Service Principal credentials
       - name: Azure Login
