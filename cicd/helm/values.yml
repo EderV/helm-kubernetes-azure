@@ -1,4 +1,5 @@
 replicaCount: 1
+namespace: springboot-dummy-namespace
 
 image:
   repository: ederv/learning-azure
