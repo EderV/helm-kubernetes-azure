@@ -39,7 +39,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ederv/learning-azure:latest \
+            -t $DOCKER_IMAGE:latest \
             -f cicd/Dockerfile \
             . --push
 
