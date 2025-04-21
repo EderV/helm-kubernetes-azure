@@ -9,6 +9,7 @@ on:
 # Define reusable environment variables
 env:
   DOCKER_IMAGE: ederv/learning-azure               # Change this to your Docker Hub repo/image
+  TAG: unknown                                     # Tag for the docker image
   AKS_CLUSTER: AKS-LearningAzure                   # Name of your AKS cluster
   AKS_RESOURCE_GROUP: Learning-Azure-RG            # Azure Resource Group containing your AKS
   KUBECONFIG: /tmp/kubeconfig                      # Temporary location to save kubeconfig
@@ -36,7 +37,7 @@ jobs:
       # Step 4: Build the Docker image and push to DockerHub
       - name: Build and push
         run: |
-          TAG=${GITHUB_SHA::7}  
+          $TAG=${GITHUB_SHA::7}  
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t $DOCKER_IMAGE:$TAG \
