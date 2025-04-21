@@ -34,13 +34,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }} # Use a Docker Hub Access Token, not password
 
       # Step 4: Build the Docker image and push to DockerHub
-      - name: Build and Push Docker image
+      - name: Build and push
         run: |
+          TAG=${GITHUB_SHA::7}  
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t $DOCKER_IMAGE:latest \
-            -f cicd/Dockerfile \
-            . --push
+            -t $DOCKER_IMAGE:$TAG \
+            -f cicd/Dockerfile . \
+            --push
 
       # Step 5: Login to Azure using GitHub secret containing the Service Principal credentials
       - name: Azure Login
@@ -75,7 +76,7 @@ jobs:
         run: |
           helm upgrade --install first-release ./cicd/helm \
             --kubeconfig $KUBECONFIG \
-            --set image.repository=$DOCKER_IMAGE,image.tag=latest
+            --set image.repository=$DOCKER_IMAGE,image.tag=$TAG
 
       # Optional Step 10: Clean up sensitive files after deployment
       - name: Cleanup kubeconfig
