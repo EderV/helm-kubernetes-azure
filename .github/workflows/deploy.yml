@@ -9,7 +9,7 @@ on:
 # Define reusable environment variables
 env:
   DOCKER_IMAGE: ederv/learning-azure               # Change this to your Docker Hub repo/image
-  TAG: unknown                                     # Tag for the docker image
+  TAG: ${{ github.sha }}
   AKS_CLUSTER: AKS-LearningAzure                   # Name of your AKS cluster
   AKS_RESOURCE_GROUP: Learning-Azure-RG            # Azure Resource Group containing your AKS
   KUBECONFIG: /tmp/kubeconfig                      # Temporary location to save kubeconfig
@@ -37,10 +37,10 @@ jobs:
       # Step 4: Build the Docker image and push to DockerHub
       - name: Build and push
         run: |
-          $TAG=${GITHUB_SHA::7}  
+          TAG=${GITHUB_SHA::7}  
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t $DOCKER_IMAGE:$TAG \
+            -t $DOCKER_IMAGE:${TAG::7} \
             -f cicd/Dockerfile . \
             --push
 
@@ -77,7 +77,7 @@ jobs:
         run: |
           helm upgrade --install first-release ./cicd/helm \
             --kubeconfig $KUBECONFIG \
-            --set image.repository=$DOCKER_IMAGE,image.tag=$TAG
+            --set image.repository=$DOCKER_IMAGE,image.tag=${TAG::7}
 
       # Optional Step 10: Clean up sensitive files after deployment
       - name: Cleanup kubeconfig
