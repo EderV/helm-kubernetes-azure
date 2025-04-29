@@ -29,6 +29,23 @@ spec:
             name: grafana-datasource
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasource
+  namespace: {{ .Values.namespace }}
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Elasticsearch
+        type: elasticsearch
+        access: proxy
+        url: http://elasticsearch:9200
+        isDefault: true
+        jsonData:
+          timeField: "@timestamp"
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.grafana.name }}
