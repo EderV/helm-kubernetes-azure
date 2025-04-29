@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: elasticsearch
+  name: {{ .Values.elasticsearch.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.elasticsearch.replicas }}
   selector:
     matchLabels:
-      app: elasticsearch
+      app: {{ .Values.elasticsearch.name }}
   template:
     metadata:
       labels:
-        app: elasticsearch
+        app: {{ .Values.elasticsearch.name }}
     spec:
       containers:
-        - name: elasticsearch
+        - name: {{ .Values.elasticsearch.name }}
           image: {{ .Values.elasticsearch.image }}
           ports:
             - containerPort: 9200
@@ -27,10 +28,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: elasticsearch
+  name: {{ .Values.elasticsearch.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: elasticsearch
+    app: {{ .Values.elasticsearch.name }}
   ports:
     - protocol: TCP
       port: 9200

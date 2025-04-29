@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fluent-bit
+  name: {{ .Values.fluentbit.name }}
+  namespace: {{ .Values.namespace }}
   labels:
-    app: fluent-bit
+    app: {{ .Values.fluentbit.name }}
 spec:
   selector:
     matchLabels:
-      app: fluent-bit
+      app: {{ .Values.fluentbit.name }}
   template:
     metadata:
       labels:
-        app: fluent-bit
+        app: {{ .Values.fluentbit.name }}
     spec:
       containers:
-        - name: fluent-bit
+        - name: {{ .Values.fluentbit.name }}
           image: {{ .Values.fluentbit.image }}
           ports:
             - containerPort: 2020 # healthcheck
@@ -36,6 +37,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluent-bit-config
+  namespace: {{ .Values.namespace }}
 data:
   fluent-bit.conf: |
     [SERVICE]

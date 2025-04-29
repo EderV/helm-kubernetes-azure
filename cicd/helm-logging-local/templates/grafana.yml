@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: {{ .Values.grafana.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: grafana
+      app: {{ .Values.grafana.name }}
   template:
     metadata:
       labels:
-        app: grafana
+        app: {{ .Values.grafana.name }}
     spec:
       containers:
-        - name: grafana
+        - name: {{ .Values.grafana.name }}
           image: {{ .Values.grafana.image }}
           ports:
             - containerPort: 3000
@@ -30,10 +31,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana
+  name: {{ .Values.grafana.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: grafana
+    app: {{ .Values.grafana.name }}
   ports:
     - port: 80
       targetPort: 3000

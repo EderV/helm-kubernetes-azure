@@ -4,7 +4,7 @@ name: Build and Deploy to AKS
 on:
   push:
     branches:
-      - main
+      - develop
 
 # Define reusable environment variables
 env:
