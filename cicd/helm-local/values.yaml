@@ -1,0 +1,18 @@
+replicaCount: 1
+namespace: springboot-home-namespace
+
+ingress:
+  name: sb-home-ingress
+  host: sb.home.local
+
+image:
+  repository: ederv/learning-azure
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  nodePort: 30100
+
+containerPort: 8080

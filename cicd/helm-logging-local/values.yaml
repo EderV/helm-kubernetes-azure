@@ -1,0 +1,18 @@
+fluentbit:
+  image: fluent/fluent-bit:2.2.0
+  tcpPort: 5000
+
+elasticsearch:
+  image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+  replicas: 1
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+
+grafana:
+  image: grafana/grafana:10.1.0
+  adminPassword: admin
+  ingress:
+    enabled: true
+    hostname: grafana.minikube.local
