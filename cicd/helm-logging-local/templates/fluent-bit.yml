@@ -50,6 +50,15 @@ data:
         Parser        docker
         Tag           kube.*
         Refresh_Interval 5
+        storage.type  filesystem
+    [SERVICE]
+        Flush         1
+        Log_Level     info
+        Parsers_File  parsers.conf
+        storage.path  /tmp/flb-storage
+        storage.sync  normal
+        storage.checksum off
+        storage.backlog.mem_limit 5M
     [FILTER]
         Name          kubernetes
         Match         kube.*
