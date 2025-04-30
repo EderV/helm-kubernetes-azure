@@ -61,3 +61,9 @@ data:
         Port  9200
         Index logs
         Type  _doc
+  parsers.conf: |
+    [PARSER]
+        Name        docker
+        Format      json
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
