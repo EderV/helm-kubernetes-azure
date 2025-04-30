@@ -41,17 +41,6 @@ metadata:
 data:
   fluent-bit.conf: |
     [SERVICE]
-        Flush        1
-        Log_Level    info
-        Parsers_File parsers.conf
-    [INPUT]
-        Name          tail
-        Path          /var/log/containers/*.log
-        Parser        docker
-        Tag           kube.*
-        Refresh_Interval 5
-        storage.type  filesystem
-    [SERVICE]
         Flush         1
         Log_Level     info
         Parsers_File  parsers.conf
@@ -59,17 +48,28 @@ data:
         storage.sync  normal
         storage.checksum off
         storage.backlog.mem_limit 5M
+
+    [INPUT]
+        Name           tail
+        Path           /var/log/containers/*_elasticsearch_*.log
+        Parser         docker
+        Tag            kube.*
+        Refresh_Interval 5
+        storage.type   filesystem
+
     [FILTER]
-        Name          kubernetes
-        Match         kube.*
+        Name           kubernetes
+        Match          kube.*
         Kube_Tag_Prefix kube.var.log.containers.
+
     [OUTPUT]
-        Name  es
-        Match *
-        Host  elasticsearch
-        Port  9200
-        Index logs
-        Type  _doc
+        Name           es
+        Match          *
+        Host           elasticsearch
+        Port           9200
+        Index          logs
+        Type           _doc
+
   parsers.conf: |
     [PARSER]
         Name        docker
